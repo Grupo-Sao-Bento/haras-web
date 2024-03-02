@@ -1,4 +1,5 @@
 import AppVue from '@/App.vue'
+import AppWorkspaceVue from '@/views/AppWorkspace.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -6,8 +7,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: AppVue
+      component: AppVue,
+      children: [
+        {
+          path: 'w',
+          component: AppWorkspaceVue
+        }
+      ]
     }
   ]
 })

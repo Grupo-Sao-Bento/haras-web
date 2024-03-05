@@ -1,13 +1,24 @@
 <script setup lang="ts">
-import Menu from 'primevue/menu'
-import type { MenuItem } from 'primevue/menuitem'
+import router from '@/router';
+import Menu from 'primevue/menu';
+import type { MenuItem } from 'primevue/menuitem';
 
 const menuItems: MenuItem[] = [
   {
     label: 'Início',
-    icon: 'pi pi-home'
-  }
-]
+    icon: 'pi pi-home',
+    command: () => {
+      router.push(`${import.meta.env.BASE_URL}w/home`);
+    },
+  },
+  {
+    label: 'Cocheiras',
+    icon: 'pi pi-table',
+    command: () => {
+      router.push(`${import.meta.env.BASE_URL}w/stable`);
+    },
+  },
+];
 </script>
 
 <template>

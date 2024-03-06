@@ -1,10 +1,10 @@
 import AppVue from '@/App.vue';
-import AppWorkspaceVue from '@/views/AppWorkspace.vue';
 import HomeModuleVue from '@/modules/home/HomeModule.vue';
-import { createRouter, createWebHistory } from 'vue-router';
 import homeRoutes from '@/modules/home/router';
 import StableModule from '@/modules/stable/StableModule.vue';
 import stableRoutes from '@/modules/stable/router';
+import AppWorkspaceVue from '@/views/AppWorkspace.vue';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router';
+
 import StableView from './views/StableView.vue';
 
 const stableRoutes: RouteRecordRaw[] = [

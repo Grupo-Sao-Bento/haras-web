@@ -1,20 +1,20 @@
-import './assets/styles.css'
+import { createApp } from 'vue';
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import PrimeVue from 'primevue/config'
-import Lara from '@/presets/lara'
+import Lara from '@/presets/lara';
+import { createPinia } from 'pinia';
+import PrimeVue from 'primevue/config';
 
-import App from './App.vue'
-import router from './router'
+import App from './App.vue';
+import './assets/styles.css';
+import router from './router';
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(createPinia())
-app.use(router)
+app.use(createPinia());
+app.use(router);
 app.use(PrimeVue, {
   unstyled: true,
-  pt: Lara
-})
+  pt: Lara,
+});
 
-app.mount('#app')
+app.mount('#app');

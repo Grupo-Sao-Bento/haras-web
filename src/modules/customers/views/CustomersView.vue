@@ -5,7 +5,7 @@ import InputText from 'primevue/inputtext';
 </script>
 
 <template>
-  <AppFeatureHeader title="Animais" subtitle="Gerencie aqui os animais da sua fazenda.">
+  <AppFeatureHeader title="Clientes" subtitle="Gerencie aqui os clientes do seu Haras.">
     <template #actions>
       <span class="relative">
         <i

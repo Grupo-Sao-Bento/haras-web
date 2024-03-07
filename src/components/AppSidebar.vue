@@ -22,7 +22,7 @@ const menuItems: MenuItem[] = [
     label: 'Clientes e Condomínios',
     icon: 'fa-solid fa-user-group',
     command: () => {
-      router.push(`${import.meta.env.BASE_URL}w/clients`);
+      router.push(`${import.meta.env.BASE_URL}w/customers`);
     },
   },
 ];

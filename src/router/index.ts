@@ -21,13 +21,11 @@ const router = createRouter({
           children: [
             {
               path: 'home',
-              name: 'home-module',
               component: HomeModuleVue,
               children: homeRoutes,
             },
             {
               path: 'stable',
-              name: 'stable-module',
               component: StableModule,
               children: stableRoutes,
             },

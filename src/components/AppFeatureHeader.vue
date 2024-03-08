@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import Menubar from 'primevue/menubar';
 import type { MenuItem } from 'primevue/menuitem';

@@ -1,11 +1,30 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 import AppFeatureHeader from '@/components/AppFeatureHeader.vue';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import type { MenuItem } from 'primevue/menuitem';
+import { RouterView } from 'vue-router';
+
+const menuItems: MenuItem[] = [
+  {
+    label: 'Clientes',
+    icon: 'fa-solid fa-user',
+    key: '/w/customers/standalone',
+  },
+  {
+    label: 'Condomínios',
+    icon: 'fa-solid fa-user-group',
+    key: '/w/customers/groups',
+  },
+];
+const headerTitle = ref('Clientes');
+const headerSubtitle = ref('Gerencie aqui os clientes e condomínios do seu Haras.');
 </script>
 
 <template>
-  <AppFeatureHeader title="Clientes" subtitle="Gerencie aqui os clientes do seu Haras.">
+  <AppFeatureHeader :title="headerTitle" :subtitle="headerSubtitle" :tabs="menuItems">
     <template #actions>
       <span class="relative">
         <i
@@ -16,4 +35,6 @@ import InputText from 'primevue/inputtext';
       <Button label="Adicionar" icon="fa-solid fa-plus" size="small" />
     </template>
   </AppFeatureHeader>
+
+  <RouterView class="mt-6" />
 </template>

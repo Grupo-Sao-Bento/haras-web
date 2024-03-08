@@ -6,7 +6,7 @@ export default {
    * a selector to the dark mode, so it *doesn't* apply automatically according to the
    * user's SO preferences. To activate automatically, remove the line below.
    */
-  darkMode: 'dark',
+  // darkMode: 'dark',
   theme: {
     extend: {
       fontFamily: {

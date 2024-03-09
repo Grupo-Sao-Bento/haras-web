@@ -8,7 +8,7 @@ import Menu from 'primevue/menu';
     <div class="w-full h-4 bg-zinc-100 dark:bg-surface-900"></div>
     <Menu class="shadow-sm flex items-center justify-between px-4">
       <template #start>
-        <div class="flex items-center justify-between w-52">
+        <div class="flex items-center justify-between w-56">
           <h2 class="text-2xl font-bold">EquinoGest</h2>
           <div>
             <Button

@@ -29,7 +29,7 @@ const menuItems: MenuItem[] = [
 </script>
 
 <template>
-  <div class="fixed h-[calc(100vh-4rem)] p-8 w-72 top-16 text-sm">
+  <div class="fixed h-[calc(100vh-4rem)] p-8 pr-4 w-72 top-16 text-sm">
     <Menu class="min-h-full shadow" :model="menuItems" />
   </div>
 </template>

@@ -1,7 +1,17 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 import AppFeatureHeader from '@/components/AppFeatureHeader.vue';
+import AppFullScreenModal from '@/components/AppFullScreenModal.vue';
+import AppFullScreenModalCard from '@/components/AppFullScreenModalCard.vue';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+
+const visible = ref(false);
+
+function openCreationModal() {
+  visible.value = !visible.value;
+}
 </script>
 
 <template>
@@ -13,7 +23,20 @@ import InputText from 'primevue/inputtext';
         />
         <InputText type="text" placeholder="Pesquisar..." class="pl-10 w-44" size="small" />
       </span>
-      <Button label="Adicionar" icon="fa-solid fa-plus" size="small" />
+      <Button @click="openCreationModal" label="Adicionar" icon="fa-solid fa-plus" size="small" />
     </template>
   </AppFeatureHeader>
+
+  <AppFullScreenModal
+    @hide="visible = false"
+    :visible="visible"
+    :isPrimaryButtonDisabled="false"
+    headerTitle="Adicionar Animal"
+  >
+    <template #modalContent>
+      <AppFullScreenModalCard>
+        <h1>Card content example</h1>
+      </AppFullScreenModalCard>
+    </template>
+  </AppFullScreenModal>
 </template>

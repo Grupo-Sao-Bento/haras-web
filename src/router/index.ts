@@ -1,4 +1,6 @@
 import AppVue from '@/App.vue';
+import CustomersModule from '@/modules/customers/CustomersModule.vue';
+import customersRoutes from '@/modules/customers/router';
 import HomeModuleVue from '@/modules/home/HomeModule.vue';
 import homeRoutes from '@/modules/home/router';
 import StableModule from '@/modules/stable/StableModule.vue';
@@ -21,15 +23,18 @@ const router = createRouter({
           children: [
             {
               path: 'home',
-              name: 'home-module',
               component: HomeModuleVue,
               children: homeRoutes,
             },
             {
               path: 'stable',
-              name: 'stable-module',
               component: StableModule,
               children: stableRoutes,
+            },
+            {
+              path: 'customers',
+              component: CustomersModule,
+              children: customersRoutes,
             },
           ],
         },

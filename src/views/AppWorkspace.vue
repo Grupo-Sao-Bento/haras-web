@@ -3,12 +3,17 @@ import { ref } from 'vue';
 
 import AppHeader from '@/components/AppHeader.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
+import DynamicDialog from 'primevue/dynamicdialog';
+import Toast from 'primevue/toast';
 import { RouterView } from 'vue-router';
 
 const isMenuVisible = ref(true);
 </script>
 
 <template>
+  <DynamicDialog />
+  <Toast />
+
   <div class="min-h-screen bg-zinc-100 dark:bg-surface-900">
     <AppHeader @toggleMenu="isMenuVisible = !isMenuVisible" />
     <AppSidebar v-if="isMenuVisible" />

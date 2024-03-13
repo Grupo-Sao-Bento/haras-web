@@ -1,11 +1,7 @@
 import AppVue from '@/App.vue';
-import CustomersModule from '@/modules/customers/CustomersModule.vue';
 import customersRoutes from '@/modules/customers/router';
-import HomeModuleVue from '@/modules/home/HomeModule.vue';
 import homeRoutes from '@/modules/home/router';
-import StableModule from '@/modules/stable/StableModule.vue';
 import stableRoutes from '@/modules/stable/router';
-import AppWorkspaceVue from '@/views/AppWorkspace.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -18,22 +14,22 @@ const router = createRouter({
       children: [
         {
           path: 'w',
-          component: AppWorkspaceVue,
+          component: () => import('@/views/AppWorkspace.vue'),
           redirect: '/w/home',
           children: [
             {
               path: 'home',
-              component: HomeModuleVue,
+              component: () => import('@/modules/home/HomeModule.vue'),
               children: homeRoutes,
             },
             {
               path: 'stable',
-              component: StableModule,
+              component: () => import('@/modules/stable/StableModule.vue'),
               children: stableRoutes,
             },
             {
               path: 'customers',
-              component: CustomersModule,
+              component: () => import('@/modules/customers/CustomersModule.vue'),
               children: customersRoutes,
             },
           ],

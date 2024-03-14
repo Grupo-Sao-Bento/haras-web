@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 
-import Lara from '@/presets/lara';
+import Wind from '@/presets/wind';
 import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
 import DialogService from 'primevue/dialogservice';
@@ -18,7 +18,8 @@ app.use(DialogService);
 app.use(ToastService);
 app.use(PrimeVue, {
   unstyled: true,
-  pt: Lara,
+  pt: Wind,
+  ripple: true,
 });
 
 app.mount('#app');

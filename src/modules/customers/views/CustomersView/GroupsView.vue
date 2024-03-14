@@ -12,7 +12,7 @@ import Button from 'primevue/button';
   >
     <template #actions>
       <SearchBar />
-      <Button label="Adicionar" icon="fa-solid fa-plus" size="small" />
+      <Button label="Adicionar" icon="fa-solid fa-plus" />
     </template>
   </AppFeatureHeader>
 </template>

@@ -11,7 +11,7 @@ defineProps<{
 
 <template>
   <TabMenu
-    class="rounded-lg rounded-b-none z-20 border border-surface-200 dark:border-surface-700 border-b-0"
+    class="rounded-lg rounded-b-none shadow z-20 border border-surface-200 dark:border-surface-700 border-b-0"
     v-model:activeIndex="activeIndex"
     :model="tabs"
     :pt="{

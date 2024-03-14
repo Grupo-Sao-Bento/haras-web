@@ -21,9 +21,9 @@ function openCreationModal() {
         <i
           class="fa fa-magnifying-glass absolute top-2/4 -mt-2 left-3 text-surface-400 dark:text-surface-600"
         />
-        <InputText type="text" placeholder="Pesquisar..." class="pl-10 w-44" size="small" />
+        <InputText type="text" placeholder="Pesquisar..." class="pl-10 w-44" />
       </span>
-      <Button @click="openCreationModal" label="Adicionar" icon="fa-solid fa-plus" size="small" />
+      <Button @click="openCreationModal" label="Adicionar" icon="fa-solid fa-plus" />
     </template>
   </AppFeatureHeader>
 

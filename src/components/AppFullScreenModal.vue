@@ -24,11 +24,13 @@ watch(
     @hide="$emit('hide')"
     v-model:visible="isVisible"
     modal
-    class="bg-surface-100 text-surface-950 dark:text-surface-100 w-[90vw] h-full dark:bg-surface-900"
+    :pt="{
+      root: 'bg-surface-100 text-surface-950 dark:text-surface-100 h-full w-full dark:bg-surface-900',
+    }"
   >
     <template #container="{ closeCallback }">
       <div
-        class="w-full z-50 flex justify-between items-center rounded-t-md py-4 px-6 shadow bg-white dark:bg-surface-700"
+        class="z-50 flex justify-between items-center rounded-t-md py-4 px-6 shadow bg-white dark:bg-surface-700"
       >
         <h1 class="font-bold text-2xl">{{ headerTitle }}</h1>
         <div class="flex gap-2">

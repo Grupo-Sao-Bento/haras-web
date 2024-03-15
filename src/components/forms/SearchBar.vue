@@ -18,12 +18,6 @@ withDefaults(
     <i
       class="fa fa-magnifying-glass absolute top-2/4 -mt-2 left-3 text-surface-400 dark:text-surface-600"
     />
-    <InputText
-      v-model="model"
-      type="text"
-      class="pl-10 w-44"
-      size="small"
-      :placeholder="placeholder"
-    />
+    <InputText v-model="model" type="text" class="pl-10 w-44" :placeholder="placeholder" />
   </span>
 </template>

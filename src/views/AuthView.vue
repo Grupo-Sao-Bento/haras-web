@@ -5,7 +5,9 @@ import Button from 'primevue/button';
 
 <template>
   <div class="w-screen h-screen bg-primary-500 grid grid-cols-1 overflow-x-hidden md:grid-cols-2">
-    <div class="w-full h-full p-8 sm:p-8 bg-surface-50 flex items-center justify-center">
+    <div
+      class="w-full h-full p-8 sm:p-8 flex items-center justify-center bg-surface-50 text-surface-950 dark:bg-surface-800 dark:text-surface-100"
+    >
       <div class="py-16">
         <h1 class="text-3xl font-semibold">Bem vindo de volta!</h1>
         <p class="mb-16 text-surface-500">Acesse sua conta e inicie as operações do seu Haras</p>

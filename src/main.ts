@@ -5,6 +5,7 @@ import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
 import DialogService from 'primevue/dialogservice';
 import ToastService from 'primevue/toastservice';
+import VueCookies from 'vue-cookies';
 
 import App from './App.vue';
 import './assets/styles.css';
@@ -14,6 +15,7 @@ const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
+app.use(VueCookies);
 app.use(DialogService);
 app.use(ToastService);
 app.use(PrimeVue, {

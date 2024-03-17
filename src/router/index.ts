@@ -10,7 +10,7 @@ const router = createRouter({
     {
       path: '/',
       component: AppVue,
-      redirect: '/w',
+      redirect: '/auth',
       children: [
         {
           path: 'auth',

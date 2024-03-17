@@ -7,7 +7,7 @@ const httpClient = axios.create({
   timeout: REQUEST_TIMEOUT,
 });
 
-const getAuthToken = () => 'Bearer mock-token';
+const getAuthToken = () => localStorage.getItem('jwt');
 
 const authInterceptor = (config: any) => {
   config.headers['Authorization'] = getAuthToken();

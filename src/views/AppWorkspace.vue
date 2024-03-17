@@ -3,11 +3,20 @@ import { ref } from 'vue';
 
 import AppHeader from '@/components/AppHeader.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
+import { useToastStore } from '@/stores/toast.store';
 import DynamicDialog from 'primevue/dynamicdialog';
 import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
 import { RouterView } from 'vue-router';
 
 const isMenuVisible = ref(true);
+
+const toastStore = useToastStore();
+const toast = useToast();
+
+toastStore.$subscribe((_, state) => {
+  toast.add({ severity: state.severity, summary: state.summary, detail: state.detail, life: 4000 });
+});
 </script>
 
 <template>

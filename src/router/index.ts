@@ -13,6 +13,10 @@ const router = createRouter({
       redirect: '/w',
       children: [
         {
+          path: 'auth',
+          component: () => import('@/views/AuthView.vue'),
+        },
+        {
           path: 'w',
           component: () => import('@/views/AppWorkspace.vue'),
           redirect: '/w/home',

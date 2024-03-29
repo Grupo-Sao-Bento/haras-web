@@ -4,6 +4,8 @@ import homeRoutes from '@/modules/home/router';
 import stableRoutes from '@/modules/stable/router';
 import { createRouter, createWebHistory } from 'vue-router';
 
+import authenticationGuard from './guards/authenticationGuard';
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -11,6 +13,7 @@ const router = createRouter({
       path: '/',
       component: AppVue,
       redirect: '/auth',
+      name: 'Root',
       children: [
         {
           path: 'auth',
@@ -20,6 +23,7 @@ const router = createRouter({
           path: 'w',
           component: () => import('@/views/AppWorkspace.vue'),
           redirect: '/w/home',
+          beforeEnter: [authenticationGuard],
           children: [
             {
               path: 'home',

@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 
 import router from '@/router';
-import httpClient from '@/services/httpClient';
+import httpClient from '@/services/http-client';
 import { defineStore } from 'pinia';
 
 import { useToastStore } from './toast.store';

@@ -1,4 +1,4 @@
-import type { Toast } from '@/models/Toast';
+import type { Toast } from '@/models/toast';
 import { defineStore } from 'pinia';
 
 export const useToastStore = defineStore('toast', {

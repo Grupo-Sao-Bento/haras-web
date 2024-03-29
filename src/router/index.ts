@@ -4,7 +4,7 @@ import homeRoutes from '@/modules/home/router';
 import stableRoutes from '@/modules/stable/router';
 import { createRouter, createWebHistory } from 'vue-router';
 
-import authenticationGuard from './guards/authenticationGuard';
+import authenticationGuard from './guards/authentication-guard';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

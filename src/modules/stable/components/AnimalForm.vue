@@ -12,20 +12,22 @@ import RadioButton from 'primevue/radiobutton';
 import { AnimalTypes } from '../enums/animal-types.enum';
 import { Coats } from '../enums/coats.enum';
 import { Genders } from '../enums/genders.enum';
+import type { Animal } from '../models/animal.model';
 
 const emit = defineEmits<{
   (e: 'isInvalid', isValid: boolean): void;
+  (e: 'formChanged', animal: Partial<Animal>): void;
 }>();
 
-const form = reactive({
-  name: null,
-  coat: null,
-  type: null,
-  gender: null,
-  registry: null,
-  owner: null,
-  birthDate: null,
-  dailyFee: null,
+const form = reactive<Partial<Animal>>({
+  name: undefined,
+  coat: undefined,
+  type: undefined,
+  gender: undefined,
+  registry: undefined,
+  owner: undefined,
+  birthDate: undefined,
+  dailyFee: undefined,
   isAlive: true,
 });
 const rules = computed(() => ({
@@ -34,7 +36,7 @@ const rules = computed(() => ({
   type: { required },
   gender: { required },
 }));
-const v$ = useVuelidate(rules, form);
+const v$ = useVuelidate(rules, form as typeof rules);
 
 const coats = Object.values(Coats).map((coat) => ({
   text: coat.charAt(0).toUpperCase() + coat.slice(1),
@@ -51,6 +53,7 @@ const genders = Object.values(Genders).map((gender) => ({
 
 watch(form, () => {
   emit('isInvalid', v$.value.$error);
+  emit('formChanged', form);
 });
 
 onMounted(async () => {

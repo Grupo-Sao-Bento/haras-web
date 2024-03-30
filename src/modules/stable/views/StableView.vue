@@ -7,13 +7,23 @@ import AppFullScreenModalCard from '@/components/AppFullScreenModalCard.vue';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 
-import AnimalFormVue from '../components/AnimalForm.vue';
+import AnimalForm from '../components/AnimalForm.vue';
+import type { Animal } from '../models/animal.model';
+import { useAnimalsStore } from '../state/animals.store';
+
+const animalsStore = useAnimalsStore();
 
 const modalVisible = ref(false);
 const isFormValid = ref(false);
+const newAnimal = ref<Partial<Animal>>({});
 
 function openCreationModal() {
   modalVisible.value = !modalVisible.value;
+}
+
+function createAnimal() {
+  animalsStore.postAnimal(newAnimal.value);
+  modalVisible.value = false;
 }
 </script>
 
@@ -31,14 +41,19 @@ function openCreationModal() {
   </AppFeatureHeader>
 
   <AppFullScreenModal
-    @hide="modalVisible = false"
+    headerTitle="Adicionar Animal"
     :visible="modalVisible"
     :isPrimaryButtonDisabled="!isFormValid"
-    headerTitle="Adicionar Animal"
+    @hide="modalVisible = false"
+    @primary-clicked="createAnimal"
   >
     <template #modalContent>
       <AppFullScreenModalCard>
-        <AnimalFormVue @is-invalid="isFormValid = !$event" />
+        <AnimalForm
+          ref="formRef"
+          @form-changed="newAnimal = $event"
+          @is-invalid="isFormValid = !$event"
+        />
       </AppFullScreenModalCard>
     </template>
   </AppFullScreenModal>

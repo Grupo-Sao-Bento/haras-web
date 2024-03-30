@@ -17,6 +17,6 @@ defineProps<{
   <div class="flex flex-col" :class="classes">
     <label v-if="label" class="mb-2 font-bold" :for="id">{{ label }}</label>
     <InputText mask="99-9999" v-model="value" :id="id" :size="size" v-bind="$attrs" />
-    <small v-if="hint" class="mt-1">{{ hint }}</small>
+    <small v-if="hint" class="mt-1 text-surface-500">{{ hint }}</small>
   </div>
 </template>

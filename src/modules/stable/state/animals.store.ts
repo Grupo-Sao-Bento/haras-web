@@ -126,9 +126,13 @@ export const useAnimalsStore = defineStore('animals', () => {
     state.value.isPosting = true;
 
     try {
-      await httpClient
+      const updatedAnimal = await httpClient
         .put<Animal>(`animals/${animal.id}`, omitBy(animal, isNil))
         .then((res) => res.data);
+
+      state.value.animalsList.pageable.content = state.value.animalsList.pageable.content?.map(
+        (el) => (el.id == updatedAnimal.id ? updatedAnimal : el),
+      );
 
       toastStore.show({
         severity: 'success',

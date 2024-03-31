@@ -122,6 +122,31 @@ export const useAnimalsStore = defineStore('animals', () => {
     state.value.isDeleting = false;
   }
 
+  async function editAnimal(animal: Partial<Animal>) {
+    state.value.isPosting = true;
+
+    try {
+      await httpClient
+        .put<Animal>(`animals/${animal.id}`, omitBy(animal, isNil))
+        .then((res) => res.data);
+
+      toastStore.show({
+        severity: 'success',
+        summary: 'Animal editado com sucesso',
+        detail: 'O animal foi editado com êxito.',
+      });
+    } catch (error) {
+      toastStore.show({
+        severity: 'error',
+        summary: 'Erro ao editar animal',
+        detail:
+          'Ocorreu um problema ao editar o animal. Tente novamente mais tarde ou contate o suporte caso o problema persista.',
+      });
+    }
+
+    state.value.isPosting = false;
+  }
+
   return {
     state,
     animals,
@@ -132,5 +157,6 @@ export const useAnimalsStore = defineStore('animals', () => {
     postAnimal,
     fetchAnimals,
     deleteAnimal,
+    editAnimal,
   };
 });

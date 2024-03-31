@@ -25,7 +25,11 @@ const animalsStore = useAnimalsStore();
 const confirmService = useConfirm();
 
 const expandedRows = ref();
+
 const modalVisible = ref(false);
+const modalHeader = ref('Adicionar Animal');
+const isEditing = ref(false);
+const selectedAnimal = ref<Partial<Animal>>({});
 
 const entitiesPerPage = ref(10);
 const rowsPerPageOptions = [entitiesPerPage.value, entitiesPerPage.value * 2];
@@ -58,12 +62,32 @@ async function pageChanges(event: PageState) {
 }
 
 function openCreationModal() {
-  modalVisible.value = !modalVisible.value;
+  isEditing.value = false;
+  modalHeader.value = 'Editar Animal';
+  modalVisible.value = true;
+}
+
+function openEditionModal(animal: Animal) {
+  isEditing.value = true;
+  modalHeader.value = 'Editar Animal';
+  selectedAnimal.value = animal;
+  formModel.value = animal;
+  formModel.value.birthDate = animal.birthDate ? new Date(animal.birthDate) : undefined;
+  modalVisible.value = true;
 }
 
 function createAnimal() {
   animalsStore.postAnimal(formModel.value);
-  modalVisible.value = false;
+  closeModal();
+}
+
+function editAnimal() {
+  const updatedAnimal = {
+    ...selectedAnimal.value,
+    ...formModel.value,
+  };
+  animalsStore.editAnimal(updatedAnimal);
+  closeModal();
 }
 
 function onUpdateRows(rowsPerPage: number) {
@@ -91,6 +115,7 @@ function confirmDeletion(event: any, animalId: string) {
 
 function closeModal() {
   modalVisible.value = false;
+  isEditing.value = false;
   formModel.value = {
     name: undefined,
     coat: undefined,
@@ -129,7 +154,7 @@ function closeModal() {
     :rows="entitiesPerPage"
     :rowsPerPageOptions="rowsPerPageOptions"
     :totalRecords="animalsStore.totalElements"
-    v-on:update:rows="onUpdateRows($event)"
+    @update:rows="onUpdateRows($event)"
     @page="pageChanges"
   >
     <Column expander style="max-width: 2rem" />
@@ -150,7 +175,12 @@ function closeModal() {
     </Column>
     <Column :exportable="false" header="Ações">
       <template #body="slotProps">
-        <Button icon="fa-solid fa-pen" outlined class="mr-2" />
+        <Button
+          icon="fa-solid fa-pen"
+          outlined
+          class="mr-2"
+          @click="openEditionModal(Object.create(slotProps.data as Animal))"
+        />
         <Button
           icon="fa-solid fa-trash"
           outlined
@@ -212,11 +242,11 @@ function closeModal() {
   </DataTable>
 
   <AppFullScreenModal
-    headerTitle="Adicionar Animal"
+    :headerTitle="modalHeader"
     :visible="modalVisible"
     :isPrimaryButtonDisabled="v$.$invalid"
     @hide="closeModal"
-    @primary-clicked="createAnimal"
+    @primary-clicked="isEditing ? editAnimal() : createAnimal()"
   >
     <template #modalContent>
       <AppFullScreenModalCard>

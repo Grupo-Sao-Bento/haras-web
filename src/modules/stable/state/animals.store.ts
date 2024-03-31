@@ -48,7 +48,12 @@ export const useAnimalsStore = defineStore('animals', () => {
     state.value.isPosting = true;
 
     try {
-      await httpClient.post<Animal>('animals', omitBy(animal, isNil)).then((res) => res.data);
+      const newAnimal = await httpClient
+        .post<Animal>('animals', omitBy(animal, isNil))
+        .then((res) => res.data);
+
+      state.value.animalsList.pageable.content?.unshift(newAnimal);
+      state.value.animalsList.pageable.totalElements! += 1;
 
       toastStore.show({
         severity: 'success',

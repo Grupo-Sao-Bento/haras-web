@@ -3,12 +3,17 @@ import { ref } from 'vue';
 
 import AppHeader from '@/components/AppHeader.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
+import { useAuthStore } from '@/stores/auth.store';
 import { useToastStore } from '@/stores/toast.store';
+import { useUserStore } from '@/stores/user.store';
 import ConfirmPopup from 'primevue/confirmpopup';
 import DynamicDialog from 'primevue/dynamicdialog';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { RouterView } from 'vue-router';
+
+const userStore = useUserStore();
+const authStore = useAuthStore();
 
 const currentYear = new Date().getFullYear();
 
@@ -28,7 +33,11 @@ toastStore.$subscribe((_, state) => {
   <Toast />
 
   <div class="min-h-screen bg-surface-100 dark:bg-surface-900">
-    <AppHeader @toggleMenu="isMenuVisible = !isMenuVisible" />
+    <AppHeader
+      :displayName="userStore.state.user.firstName"
+      @toggleMenu="isMenuVisible = !isMenuVisible"
+      @logout="authStore.logout"
+    />
     <AppSidebar v-if="isMenuVisible" />
     <div
       class="pt-[5.5rem] pr-4 min-h-screen"

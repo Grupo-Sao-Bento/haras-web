@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import Button from 'primevue/button';
 import Menu from 'primevue/menu';
+
+defineProps<{ displayName?: string }>();
 </script>
 
 <template>
@@ -27,7 +29,7 @@ import Menu from 'primevue/menu';
           <div class="flex items-center h-full justify-between gap-7">
             <div class="flex items-center gap-2 max-w-40">
               <i class="fa-solid fa-circle-user fa-lg"></i>
-              <div class="truncate">Primeiro Nome</div>
+              <div class="truncate">{{ displayName || 'Usuário' }}</div>
             </div>
             <Button
               @click="$emit('logout')"

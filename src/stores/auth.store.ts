@@ -46,5 +46,10 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
-  return { state, login };
+  function logout() {
+    localStorage.clear();
+    window.location.href = '/';
+  }
+
+  return { state, login, logout };
 });

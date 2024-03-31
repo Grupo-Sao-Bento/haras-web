@@ -7,10 +7,14 @@ const httpClient = axios.create({
   timeout: REQUEST_TIMEOUT,
 });
 
-const getAuthToken = () => `Bearer ${localStorage.getItem('jwt')}`;
+const getAuthToken = () => localStorage.getItem('jwt');
 
 const authInterceptor = (config: any) => {
-  config.headers['Authorization'] = getAuthToken();
+  const token = getAuthToken();
+
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
   return config;
 };
 

@@ -1,0 +1,16 @@
+export enum Coats {
+  BRANCA = 'Branca',
+  PRETA = 'Preta',
+  ALAZA = 'Alazã',
+  CASTANHA = 'Castanha',
+  BAIA = 'Baia',
+  PELO_DE_RATO = 'Pêlo de Rato',
+  TORDILHA = 'Tordilha',
+  ROSILHA = 'Rosilha',
+  LOBUNA = 'Lobuna',
+  RUAO = 'Ruão',
+  PAMPA = 'Pampa',
+  LEOPARDO = 'Leopardo',
+  MANTADO = 'Mantado',
+  NEVADO = 'Nevado',
+}

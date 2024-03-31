@@ -5,7 +5,7 @@ import Menu from 'primevue/menu';
 
 <template>
   <div class="pb-4 fixed w-full z-50">
-    <div class="w-full h-4 bg-zinc-100 dark:bg-surface-900"></div>
+    <div class="w-full h-4 bg-surface-100 dark:bg-surface-900"></div>
     <div class="px-4">
       <Menu class="shadow flex items-center justify-between px-6 py-3">
         <template #start>

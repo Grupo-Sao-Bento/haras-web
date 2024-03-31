@@ -3,6 +3,7 @@ import { createApp } from 'vue';
 import Wind from '@/presets/wind';
 import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
+import ConfirmationService from 'primevue/confirmationservice';
 import DialogService from 'primevue/dialogservice';
 import ToastService from 'primevue/toastservice';
 import VueCookies from 'vue-cookies';
@@ -18,6 +19,7 @@ app.use(router);
 app.use(VueCookies);
 app.use(DialogService);
 app.use(ToastService);
+app.use(ConfirmationService);
 app.use(PrimeVue, {
   unstyled: true,
   pt: Wind,

@@ -4,10 +4,13 @@ import { ref } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
 import { useToastStore } from '@/stores/toast.store';
+import ConfirmPopup from 'primevue/confirmpopup';
 import DynamicDialog from 'primevue/dynamicdialog';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { RouterView } from 'vue-router';
+
+const currentYear = new Date().getFullYear();
 
 const isMenuVisible = ref(true);
 
@@ -21,6 +24,7 @@ toastStore.$subscribe((_, state) => {
 
 <template>
   <DynamicDialog />
+  <ConfirmPopup />
   <Toast />
 
   <div class="min-h-screen bg-surface-100 dark:bg-surface-900">
@@ -32,6 +36,9 @@ toastStore.$subscribe((_, state) => {
     >
       <div class="w-full min-h-[calc(100vh-8rem)] text-surface-950 dark:text-surface-50">
         <RouterView />
+        <p class="text-sm text-surface-500 text-center mt-8 pb-4">
+          &copy; Grupo SB - {{ currentYear }}
+        </p>
       </div>
     </div>
   </div>

@@ -4,6 +4,8 @@ import { onMounted, ref } from 'vue';
 import AppFeatureHeader from '@/components/AppFeatureHeader.vue';
 import AppFullScreenModal from '@/components/AppFullScreenModal.vue';
 import AppFullScreenModalCard from '@/components/AppFullScreenModalCard.vue';
+import useVuelidate from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import Button from 'primevue/button';
 import Column from 'primevue/column';
 import DataTable from 'primevue/datatable';
@@ -24,26 +26,43 @@ const confirmService = useConfirm();
 
 const expandedRows = ref();
 const modalVisible = ref(false);
-const isFormValid = ref(false);
-const newAnimal = ref<Partial<Animal>>({});
 
 const entitiesPerPage = ref(10);
 const rowsPerPageOptions = [entitiesPerPage.value, entitiesPerPage.value * 2];
 
-async function pageChanges(event: PageState) {
-  await animalsStore.fetchAnimals(event.page, entitiesPerPage.value);
-}
+const formModel = ref<Partial<Animal>>({
+  name: undefined,
+  coat: undefined,
+  type: undefined,
+  gender: undefined,
+  registry: undefined,
+  owner: undefined,
+  birthDate: undefined,
+  dailyFee: undefined,
+  isAlive: true,
+});
+const rules = {
+  name: { required },
+  coat: { required },
+  type: { required },
+  gender: { required },
+};
+const v$ = useVuelidate();
 
 onMounted(async () => {
   await animalsStore.fetchAnimals(0, entitiesPerPage.value);
 });
+
+async function pageChanges(event: PageState) {
+  await animalsStore.fetchAnimals(event.page, entitiesPerPage.value);
+}
 
 function openCreationModal() {
   modalVisible.value = !modalVisible.value;
 }
 
 function createAnimal() {
-  animalsStore.postAnimal(newAnimal.value);
+  animalsStore.postAnimal(formModel.value);
   modalVisible.value = false;
 }
 
@@ -68,6 +87,21 @@ function confirmDeletion(event: any, animalId: string) {
       await animalsStore.deleteAnimal(animalId);
     },
   });
+}
+
+function closeModal() {
+  modalVisible.value = false;
+  formModel.value = {
+    name: undefined,
+    coat: undefined,
+    type: undefined,
+    gender: undefined,
+    registry: undefined,
+    owner: undefined,
+    birthDate: undefined,
+    dailyFee: undefined,
+    isAlive: true,
+  };
 }
 </script>
 
@@ -180,13 +214,13 @@ function confirmDeletion(event: any, animalId: string) {
   <AppFullScreenModal
     headerTitle="Adicionar Animal"
     :visible="modalVisible"
-    :isPrimaryButtonDisabled="!isFormValid"
-    @hide="modalVisible = false"
+    :isPrimaryButtonDisabled="v$.$invalid"
+    @hide="closeModal"
     @primary-clicked="createAnimal"
   >
     <template #modalContent>
       <AppFullScreenModalCard>
-        <AnimalForm @form-changed="newAnimal = $event" @is-invalid="isFormValid = !$event" />
+        <AnimalForm v-model:form-model="formModel" :validation-rules="rules" />
       </AppFullScreenModalCard>
     </template>
   </AppFullScreenModal>

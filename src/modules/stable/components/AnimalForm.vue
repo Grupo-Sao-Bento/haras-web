@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, watch } from 'vue';
+import { computed, onMounted } from 'vue';
 
 import FormControl from '@/components/forms/FormControl.vue';
 import useVuelidate from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
 import Calendar from 'primevue/calendar';
 import Dropdown from 'primevue/dropdown';
 import InputNumber from 'primevue/inputnumber';
@@ -14,29 +13,24 @@ import { Coats } from '../enums/coats.enum';
 import { Genders } from '../enums/genders.enum';
 import type { Animal } from '../models/animal.model';
 
-const emit = defineEmits<{
-  (e: 'isInvalid', isValid: boolean): void;
-  (e: 'formChanged', animal: Partial<Animal>): void;
+const props = defineProps<{
+  formModel: Partial<Animal>;
+  validationRules: Object;
 }>();
 
-const form = reactive<Partial<Animal>>({
-  name: undefined,
-  coat: undefined,
-  type: undefined,
-  gender: undefined,
-  registry: undefined,
-  owner: undefined,
-  birthDate: undefined,
-  dailyFee: undefined,
-  isAlive: true,
+const emit = defineEmits<{
+  (e: 'update:formModel', value: Partial<Animal>): void;
+}>();
+
+const form = computed({
+  get() {
+    return props.formModel;
+  },
+  set(formValue) {
+    emit('update:formModel', formValue);
+  },
 });
-const rules = computed(() => ({
-  name: { required },
-  coat: { required },
-  type: { required },
-  gender: { required },
-}));
-const v$ = useVuelidate(rules, form as typeof rules);
+const v$ = useVuelidate(props.validationRules, form.value);
 
 const coats = Object.entries(Coats).map(([enumKey, enumValue]) => ({
   text: enumValue,
@@ -50,11 +44,6 @@ const genders = Object.entries(Genders).map(([enumKey, enumValue]) => ({
   text: enumValue,
   value: enumKey,
 }));
-
-watch(form, () => {
-  emit('isInvalid', v$.value.$error);
-  emit('formChanged', form);
-});
 
 onMounted(async () => {
   await v$.value.$validate();

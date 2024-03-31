@@ -18,7 +18,6 @@ import { useConfirm } from 'primevue/useconfirm';
 import AnimalForm from '../components/AnimalForm.vue';
 import TableExpansion from '../components/TableExpansion.vue';
 import { Coats } from '../enums/coats.enum';
-import { Genders } from '../enums/genders.enum';
 import type { Animal } from '../models/animal.model';
 import { useAnimalsStore } from '../state/animals.store';
 
@@ -166,7 +165,15 @@ function closeModal() {
           :severity="
             (slotProps.data.gender as string).charAt(0).toLowerCase() === 'm' ? 'info' : 'danger'
           "
-          :value="Genders[slotProps.data.gender as keyof typeof Genders]"
+          :value="(slotProps.data as Animal).gender.charAt(0)"
+        />
+      </template>
+    </Column>
+    <Column field="isAlive" header="Estado de vida">
+      <template #body="slotProps">
+        <Tag
+          :severity="(slotProps.data as Animal).isAlive ? 'primary' : 'warning'"
+          :value="(slotProps.data as Animal).isAlive ? 'Vivo' : 'Morto'"
         />
       </template>
     </Column>

@@ -10,6 +10,7 @@ import type { Animal } from '../models/animal.model';
 
 interface AnimalsState {
   isPosting: boolean;
+  isDeleting: boolean;
   animalsList: {
     pageable: Pageable<Animal>;
     loading: boolean;
@@ -19,6 +20,7 @@ interface AnimalsState {
 
 const initialState: AnimalsState = {
   isPosting: false,
+  isDeleting: false,
   animalsList: {
     pageable: {
       content: [],
@@ -73,7 +75,9 @@ export const useAnimalsStore = defineStore('animals', () => {
       params.append('page', `${page}`);
       params.append('size', `${size}`);
 
-      const animalsPageable = await httpClient.get('animals', { params }).then((res) => res.data);
+      const animalsPageable = await httpClient
+        .get<Pageable<Animal>>('animals', { params })
+        .then((res) => res.data);
 
       state.value.animalsList.pageable = animalsPageable;
       state.value.animalsList.error = false;
@@ -91,6 +95,33 @@ export const useAnimalsStore = defineStore('animals', () => {
     state.value.animalsList.loading = false;
   }
 
+  async function deleteAnimal(animalId: string) {
+    state.value.isDeleting = true;
+
+    try {
+      await httpClient.delete(`animals/${animalId}`);
+
+      toastStore.show({
+        severity: 'success',
+        summary: 'Animal deletado com sucesso',
+        detail: 'O animal foi deletado com êxito.',
+      });
+
+      state.value.animalsList.pageable.content = state.value.animalsList.pageable.content?.filter(
+        (animal) => animal.id !== animalId,
+      );
+    } catch (error) {
+      toastStore.show({
+        severity: 'error',
+        summary: 'Erro ao deletar animal',
+        detail:
+          'Ocorreu um problema ao deletar o animal. Tente novamente mais tarde ou contate o suporte caso o problema persista.',
+      });
+    }
+
+    state.value.isDeleting = false;
+  }
+
   return {
     state,
     animals,
@@ -100,5 +131,6 @@ export const useAnimalsStore = defineStore('animals', () => {
     loading,
     postAnimal,
     fetchAnimals,
+    deleteAnimal,
   };
 });

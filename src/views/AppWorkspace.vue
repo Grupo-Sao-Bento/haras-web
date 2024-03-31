@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
 import { useToastStore } from '@/stores/toast.store';
+import ConfirmPopup from 'primevue/confirmpopup';
 import DynamicDialog from 'primevue/dynamicdialog';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
@@ -23,6 +24,7 @@ toastStore.$subscribe((_, state) => {
 
 <template>
   <DynamicDialog />
+  <ConfirmPopup />
   <Toast />
 
   <div class="min-h-screen bg-surface-100 dark:bg-surface-900">

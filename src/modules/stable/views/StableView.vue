@@ -10,6 +10,7 @@ import DataTable from 'primevue/datatable';
 import InputText from 'primevue/inputtext';
 import type { PageState } from 'primevue/paginator';
 import Tag from 'primevue/tag';
+import { useConfirm } from 'primevue/useconfirm';
 
 import AnimalForm from '../components/AnimalForm.vue';
 import { AnimalTypes } from '../enums/animal-types.enum';
@@ -19,6 +20,7 @@ import type { Animal } from '../models/animal.model';
 import { useAnimalsStore } from '../state/animals.store';
 
 const animalsStore = useAnimalsStore();
+const confirmService = useConfirm();
 
 const expandedRows = ref();
 const modalVisible = ref(false);
@@ -27,6 +29,10 @@ const newAnimal = ref<Partial<Animal>>({});
 
 const entitiesPerPage = ref(10);
 const rowsPerPageOptions = [entitiesPerPage.value, entitiesPerPage.value * 2];
+
+async function pageChanges(event: PageState) {
+  await animalsStore.fetchAnimals(event.page, entitiesPerPage.value);
+}
 
 onMounted(async () => {
   await animalsStore.fetchAnimals(0, entitiesPerPage.value);
@@ -49,8 +55,19 @@ function getFormattedDate(date: Date | string): string {
   return new Date(date).toJSON()?.slice(0, 10).split('-').reverse().join('/');
 }
 
-async function pageChanges(event: PageState) {
-  await animalsStore.fetchAnimals(event.page, entitiesPerPage.value);
+function confirmDeletion(event: any, animalId: string) {
+  confirmService.require({
+    target: event.currentTarget,
+    message: 'Tem certeza que deseja deletar esse registro?',
+    icon: 'fa-solid fa-exclamation-triangle',
+    acceptClass:
+      '!bg-red-500 dark:!bg-red-40 !border-red-500 dark:!border-red-400 !ring-red-500 dark:!ring-red-400 hover:!bg-red-600 dark:hover:!bg-red-300 hover:!border-red-600 dark:hover:!border-red-300 focus:!ring-red-400/50 dark:!focus:ring-red-300/50',
+    rejectLabel: 'Não',
+    acceptLabel: 'Sim',
+    accept: async () => {
+      await animalsStore.deleteAnimal(animalId);
+    },
+  });
 }
 </script>
 
@@ -98,9 +115,14 @@ async function pageChanges(event: PageState) {
       </template>
     </Column>
     <Column :exportable="false" header="Ações">
-      <template #body>
+      <template #body="slotProps">
         <Button icon="fa-solid fa-pen" outlined class="mr-2" />
-        <Button icon="fa-solid fa-trash" outlined severity="danger" />
+        <Button
+          icon="fa-solid fa-trash"
+          outlined
+          severity="danger"
+          @click="confirmDeletion($event, (slotProps.data as Animal).id)"
+        />
       </template>
     </Column>
 

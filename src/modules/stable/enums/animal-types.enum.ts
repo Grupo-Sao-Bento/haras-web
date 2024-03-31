@@ -1,5 +1,5 @@
 export enum AnimalTypes {
-  POTRO = 'potro',
-  EGUA = 'egua',
-  GARANHAO = 'garanhao',
+  POTRO = 'Potro',
+  EGUA = 'Égua',
+  GARANHAO = 'Garanhão',
 }

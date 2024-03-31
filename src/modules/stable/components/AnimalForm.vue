@@ -38,17 +38,17 @@ const rules = computed(() => ({
 }));
 const v$ = useVuelidate(rules, form as typeof rules);
 
-const coats = Object.values(Coats).map((coat) => ({
-  text: coat.charAt(0).toUpperCase() + coat.slice(1),
-  value: coat.toUpperCase(),
+const coats = Object.entries(Coats).map(([enumKey, enumValue]) => ({
+  text: enumValue,
+  value: enumKey,
 }));
-const animalTypes = Object.values(AnimalTypes).map((type) => ({
-  text: type.charAt(0).toUpperCase() + type.slice(1),
-  value: type.toUpperCase(),
+const animalTypes = Object.entries(AnimalTypes).map(([enumKey, enumValue]) => ({
+  text: enumValue,
+  value: enumKey,
 }));
-const genders = Object.values(Genders).map((gender) => ({
-  text: gender.toLowerCase() === 'male' ? 'Macho' : 'Fêmea',
-  value: gender.toUpperCase(),
+const genders = Object.entries(Genders).map(([enumKey, enumValue]) => ({
+  text: enumValue,
+  value: enumKey,
 }));
 
 watch(form, () => {

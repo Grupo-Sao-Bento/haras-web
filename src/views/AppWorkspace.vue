@@ -9,6 +9,8 @@ import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { RouterView } from 'vue-router';
 
+const currentYear = new Date().getFullYear();
+
 const isMenuVisible = ref(true);
 
 const toastStore = useToastStore();
@@ -32,6 +34,9 @@ toastStore.$subscribe((_, state) => {
     >
       <div class="w-full min-h-[calc(100vh-8rem)] text-surface-950 dark:text-surface-50">
         <RouterView />
+        <p class="text-sm text-surface-500 text-center mt-8 pb-4">
+          &copy; Grupo SB - {{ currentYear }}
+        </p>
       </div>
     </div>
   </div>

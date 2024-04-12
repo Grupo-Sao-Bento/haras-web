@@ -27,7 +27,7 @@ const confirmService = useConfirm();
 const expandedRows = ref();
 
 const modalVisible = ref(false);
-const modalHeader = ref('Adicionar Animal');
+const modalHeader = ref('Adicionar animal');
 const isEditing = ref(false);
 const selectedAnimal = ref<Partial<Animal>>({});
 
@@ -63,13 +63,13 @@ async function pageChanges(event: PageState) {
 
 function openCreationModal() {
   isEditing.value = false;
-  modalHeader.value = 'Editar Animal';
+  modalHeader.value = 'Adicionar animal';
   modalVisible.value = true;
 }
 
 function openEditionModal(animal: Animal) {
   isEditing.value = true;
-  modalHeader.value = 'Editar Animal';
+  modalHeader.value = 'Editar animal';
   selectedAnimal.value = animal;
   formModel.value = animal;
   formModel.value.birthDate = animal.birthDate ? new Date(animal.birthDate) : undefined;

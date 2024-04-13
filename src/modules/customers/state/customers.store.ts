@@ -38,7 +38,9 @@ export const useCustomersStore = defineStore('customers', () => {
 
   const state = ref<CustomersState>(initialState);
 
-  const customers = computed(() => state.value.customersList.pageable.content);
+  const customers = computed<Customer[] | undefined>(
+    () => state.value.customersList.pageable.content,
+  );
   const currentPage = computed(() => state.value.customersList.pageable.currentPage);
   const totalElements = computed(() => state.value.customersList.pageable.totalElements);
   const totalPages = computed(() => state.value.customersList.pageable.totalPages);
@@ -72,5 +74,99 @@ export const useCustomersStore = defineStore('customers', () => {
     state.value.isPosting = false;
   }
 
-  return { state, postCustomer };
+  async function fetchCustomers(page = 0, size = 10) {
+    state.value.customersList.loading = true;
+
+    try {
+      const params = new URLSearchParams();
+      params.append('page', `${page}`);
+      params.append('size', `${size}`);
+
+      const customersPageable = await httpClient
+        .get<Pageable<Customer>>('clients', { params })
+        .then((res) => res.data);
+
+      state.value.customersList.pageable = customersPageable;
+      state.value.customersList.error = false;
+    } catch (error) {
+      state.value.customersList.error = true;
+
+      toastStore.show({
+        severity: 'error',
+        summary: 'Erro ao carregar clientes',
+        detail:
+          'Ocorreu um erro ao carregar os clientes. Tente novamente mais tarde ou contate o suporte.',
+      });
+    }
+
+    state.value.customersList.loading = false;
+  }
+
+  async function deleteCustomer(customerId: string) {
+    state.value.isDeleting = true;
+
+    try {
+      await httpClient.delete(`clients/${customerId}`);
+
+      toastStore.show({
+        severity: 'success',
+        summary: 'Cliente deletado com sucesso',
+        detail: 'O cliente foi deletado com êxito.',
+      });
+
+      state.value.customersList.pageable.content =
+        state.value.customersList.pageable.content?.filter((animal) => animal.id !== customerId);
+    } catch (error) {
+      toastStore.show({
+        severity: 'error',
+        summary: 'Erro ao deletar cliente',
+        detail:
+          'Ocorreu um problema ao deletar o cliente. Tente novamente mais tarde ou contate o suporte caso o problema persista.',
+      });
+    }
+
+    state.value.isDeleting = false;
+  }
+
+  async function editCustomer(customer: Partial<Customer>) {
+    state.value.isPosting = true;
+
+    try {
+      const updatedCustomer = await httpClient
+        .put<Customer>(`clients/${customer.id}`, omitBy(customer, isNil))
+        .then((res) => res.data);
+
+      state.value.customersList.pageable.content = state.value.customersList.pageable.content?.map(
+        (el) => (el.id == updatedCustomer.id ? updatedCustomer : el),
+      );
+
+      toastStore.show({
+        severity: 'success',
+        summary: 'Cliente editado com sucesso',
+        detail: 'O cliente foi editado com êxito.',
+      });
+    } catch (error) {
+      toastStore.show({
+        severity: 'error',
+        summary: 'Erro ao editar cliente',
+        detail:
+          'Ocorreu um problema ao editar o cliente. Tente novamente mais tarde ou contate o suporte caso o problema persista.',
+      });
+    }
+
+    state.value.isPosting = false;
+  }
+
+  return {
+    state,
+    customers,
+    currentPage,
+    totalElements,
+    totalPages,
+    loading,
+    postCustomer,
+    fetchCustomers,
+    deleteCustomer,
+    editCustomer,
+  };
 });

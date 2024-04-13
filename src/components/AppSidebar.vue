@@ -25,6 +25,26 @@ const menuItems: MenuItem[] = [
       router.push(`${import.meta.env.BASE_URL}w/customers`);
     },
   },
+  {
+    label: 'Cocheiras',
+    icon: 'fa-solid fa-warehouse',
+  },
+  {
+    label: 'Estoque',
+    icon: 'fa-solid fa-boxes-stacked',
+  },
+  {
+    label: 'Gestão de Reprodução',
+    icon: 'fa-solid fa-mars-and-venus',
+  },
+  {
+    label: 'Procedimentos',
+    icon: 'fa-solid fa-stethoscope',
+  },
+  {
+    label: 'Controle Financeiro',
+    icon: 'fa-solid fa-money-check',
+  },
 ];
 </script>
 

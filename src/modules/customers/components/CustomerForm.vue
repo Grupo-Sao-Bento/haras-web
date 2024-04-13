@@ -1,6 +1,33 @@
 <script setup lang="ts">
+import { computed, onMounted } from 'vue';
+
 import FormControl from '@/components/forms/FormControl.vue';
 import MaskFormControl from '@/components/forms/MaskFormControl.vue';
+import useVuelidate from '@vuelidate/core';
+
+import type { Customer } from '../models/customer';
+
+const props = defineProps<{
+  formModel: Partial<Customer>;
+  validationRules: Object;
+}>();
+const emit = defineEmits<{
+  (e: 'update:formModel', value: Partial<Customer>): void;
+}>();
+
+const form = computed({
+  get() {
+    return props.formModel;
+  },
+  set(formValue) {
+    emit('update:formModel', formValue);
+  },
+});
+const v$ = useVuelidate(props.validationRules, form.value);
+
+onMounted(async () => {
+  await v$.value.$validate();
+});
 </script>
 
 <template>
@@ -9,6 +36,7 @@ import MaskFormControl from '@/components/forms/MaskFormControl.vue';
 
   <div class="gap-4 grid grid-cols-3 mb-4">
     <FormControl
+      v-model="form.firstName"
       label="Nome*"
       id="customer-name"
       name="customer-name"
@@ -18,6 +46,7 @@ import MaskFormControl from '@/components/forms/MaskFormControl.vue';
     />
 
     <FormControl
+      v-model="form.lastName"
       label="Sobrenome*"
       id="customer-last-name"
       name="customer-last-name"
@@ -28,6 +57,7 @@ import MaskFormControl from '@/components/forms/MaskFormControl.vue';
   </div>
 
   <MaskFormControl
+    v-model="form.cpf"
     label="CPF*"
     id="customer-cpf"
     name="customer-cpf"
@@ -42,6 +72,7 @@ import MaskFormControl from '@/components/forms/MaskFormControl.vue';
 
   <div class="gap-4 flex mb-4">
     <MaskFormControl
+      v-model="form.phoneNumber"
       label="Telefone*"
       id="customer-phone-number"
       name="customer-phone-number"
@@ -52,6 +83,7 @@ import MaskFormControl from '@/components/forms/MaskFormControl.vue';
     />
 
     <FormControl
+      v-model="form.email"
       label="Email*"
       id="customer-email"
       name="customer-email"

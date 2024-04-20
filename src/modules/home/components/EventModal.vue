@@ -4,7 +4,10 @@ import { ref, watch } from 'vue';
 import FormControl from '@/components/forms/FormControl.vue';
 import Button from 'primevue/button';
 import Calendar from 'primevue/calendar';
+import Checkbox from 'primevue/checkbox';
 import Dialog from 'primevue/dialog';
+
+import type { CalendarEvent } from '../models/calendar-event.model';
 
 const props = defineProps<{
   visible: boolean;
@@ -13,11 +16,15 @@ const props = defineProps<{
 }>();
 const isVisible = ref(false);
 
-const title = ref<string>('Novo evento');
-const start = ref<Date>(new Date());
-const end = ref<Date>(new Date(start.value.getTime() + 60 * 60 * 1000));
+const title = ref('Novo evento');
+const start = ref(new Date());
+const end = ref(new Date(start.value.getTime() + 60 * 60 * 1000));
+const allDay = ref(false);
 
-defineEmits(['hide', 'primaryClicked']);
+const emit = defineEmits<{
+  (e: 'hide'): void;
+  (e: 'primary-clicked', value: Partial<CalendarEvent>): void;
+}>();
 
 watch(
   () => props.visible,
@@ -40,6 +47,18 @@ function getStartDate(date: Date) {
   date.setMinutes(currentMinutes);
 
   return date;
+}
+
+function submitEvent() {
+  const newEvent: Partial<CalendarEvent> = {
+    title: title.value,
+    start: start.value,
+    end: end.value,
+    allDay: allDay.value,
+  };
+
+  emit('primary-clicked', newEvent);
+  isVisible.value = false;
 }
 </script>
 
@@ -66,15 +85,19 @@ function getStartDate(date: Date) {
       <label class="font-bold">Início</label> <br />
       <Calendar v-model="start" class="mt-2 w-6/12" showTime hour-format="24" />
     </div>
-    <div class="mb-5">
+    <div class="mb-3">
       <label class="font-bold">Fim</label> <br />
       <Calendar
         v-model="end"
-        class="mt-2 w-6/12 mb-4"
+        class="mt-2 w-6/12"
         date-format="dd/mm/yy"
         showTime
         hour-format="24"
       />
+    </div>
+    <div class="mb-5 flex items-center gap-2">
+      <Checkbox v-model="allDay" binary input-id="all-day" name="all-day" />
+      <label for="all-day" class="cursor-pointer">Este evento dura o dia todo</label>
     </div>
     <div class="flex justify-end gap-2">
       <Button
@@ -84,7 +107,7 @@ function getStartDate(date: Date) {
         outlined
         @click="isVisible = false"
       ></Button>
-      <Button type="button" label="Salvar" :disabled="!title" @click="isVisible = false"></Button>
+      <Button type="button" label="Salvar" :disabled="!title" @click="submitEvent"></Button>
     </div>
   </Dialog>
 </template>

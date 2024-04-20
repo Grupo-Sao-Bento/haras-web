@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 
+import { brLocale } from '@/assets/locale.js';
 import Wind from '@/presets/wind';
 import { createPinia } from 'pinia';
 import PrimeVue from 'primevue/config';
@@ -24,6 +25,7 @@ app.use(PrimeVue, {
   unstyled: true,
   pt: Wind,
   ripple: true,
+  locale: brLocale,
 });
 
 app.mount('#app');

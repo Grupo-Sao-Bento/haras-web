@@ -17,7 +17,7 @@ import { useConfirm } from 'primevue/useconfirm';
 
 import AnimalForm from '../components/AnimalForm.vue';
 import TableExpansion from '../components/TableExpansion.vue';
-import { AnimalBreeds } from '../enums/animal-breeds.enum';
+import { Breeds } from '../enums/breeds.enum';
 import { Coats } from '../enums/coats.enum';
 import type { Animal } from '../models/animal.model';
 import { useAnimalsStore } from '../state/animals.store';
@@ -163,7 +163,7 @@ function closeModal() {
     </Column>
     <Column field="breed" header="Raça">
       <template #body="slotProps">{{
-        AnimalBreeds[slotProps.data.breed as keyof typeof AnimalBreeds]
+        Breeds[slotProps.data.breed as keyof typeof Breeds]
       }}</template>
     </Column>
     <Column field="registry" header="Registro" />

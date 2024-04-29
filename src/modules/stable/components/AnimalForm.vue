@@ -8,8 +8,8 @@ import Dropdown from 'primevue/dropdown';
 import InputNumber from 'primevue/inputnumber';
 import RadioButton from 'primevue/radiobutton';
 
-import { AnimalBreeds } from '../enums/animal-breeds.enum';
 import { AnimalTypes } from '../enums/animal-types.enum';
+import { Breeds } from '../enums/breeds.enum';
 import { Coats } from '../enums/coats.enum';
 import { Genders } from '../enums/genders.enum';
 import type { Animal } from '../models/animal.model';
@@ -37,7 +37,7 @@ const coats = Object.entries(Coats).map(([enumKey, enumValue]) => ({
   text: enumValue,
   value: enumKey,
 }));
-const animalBreeds = Object.entries(AnimalBreeds).map(([enumKey, enumValue]) => ({
+const breeds = Object.entries(Breeds).map(([enumKey, enumValue]) => ({
   text: enumValue,
   value: enumKey,
 }));
@@ -105,7 +105,7 @@ onMounted(async () => {
   <label class="font-bold">Raça</label>
   <Dropdown
     v-model="form.breed"
-    :options="animalBreeds"
+    :options="breeds"
     optionLabel="text"
     optionValue="value"
     placeholder="Selecione uma raça"

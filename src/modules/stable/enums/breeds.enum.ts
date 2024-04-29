@@ -1,4 +1,4 @@
-export enum AnimalBreeds {
+export enum Breeds {
   APPALOOZA = 'Appalooza',
   ANDALUZ = 'Andaluz',
   BRETAO = 'Bretão',

@@ -127,6 +127,7 @@ onMounted(async () => {
         v-model="form.father"
         filter
         :options="searchResults"
+        optionValue="id"
         optionLabel="name"
         placeholder="Selecione o Pai"
         class="w-full md:w-14rem"
@@ -139,6 +140,7 @@ onMounted(async () => {
         v-model="form.mother"
         filter
         :options="searchResults"
+        optionValue="id"
         optionLabel="name"
         placeholder="Selecione a Mãe"
         class="w-full md:w-14rem"

@@ -2,6 +2,7 @@
 import { computed, onMounted } from 'vue';
 
 import FormControl from '@/components/forms/FormControl.vue';
+import { useCustomersStore } from '@/modules/customers/state/customers.store';
 import useVuelidate from '@vuelidate/core';
 import Calendar from 'primevue/calendar';
 import Dropdown from 'primevue/dropdown';
@@ -35,9 +36,14 @@ const form = computed({
 const v$ = useVuelidate(props.validationRules, form.value);
 
 const animalsStore = useAnimalsStore();
+const customerStore = useCustomersStore();
 
-const searchResults = computed(() => {
+const searchAnimalResults = computed(() => {
   return animalsStore.animals?.map((animal) => ({ id: animal.id, name: animal.name }));
+});
+
+const searchOwnerResults = computed(() => {
+  return customerStore.customers?.map((owner) => ({ id: owner.id, name: owner.firstName }));
 });
 
 const coats = Object.entries(Coats).map(([enumKey, enumValue]) => ({
@@ -59,6 +65,7 @@ const genders = Object.entries(Genders).map(([enumKey, enumValue]) => ({
 
 onMounted(async () => {
   await animalsStore.fetchAnimals(0, 1000);
+  await customerStore.fetchCustomers(0, 1000);
   await v$.value.$validate();
 });
 </script>
@@ -126,7 +133,7 @@ onMounted(async () => {
       <Dropdown
         v-model="form.father"
         filter
-        :options="searchResults"
+        :options="searchAnimalResults"
         optionValue="id"
         optionLabel="name"
         placeholder="Selecione o Pai"
@@ -139,7 +146,7 @@ onMounted(async () => {
       <Dropdown
         v-model="form.mother"
         filter
-        :options="searchResults"
+        :options="searchAnimalResults"
         optionValue="id"
         optionLabel="name"
         placeholder="Selecione a Mãe"
@@ -158,14 +165,20 @@ onMounted(async () => {
     classes="mt-4 mb-4"
   />
 
-  <FormControl
-    v-model="form.owner"
-    label="Proprietário"
-    id="owner"
-    type="text"
-    placeholder="Nome do proprietário"
-    classes="mb-4"
-  />
+  <div class="flex gap-4 mt-4 mb-4">
+    <div class="w-full">
+      <label class="font-bold">Proprietário</label>
+      <Dropdown
+        v-model="form.owner"
+        filter
+        :options="searchOwnerResults"
+        optionValue="id"
+        optionLabel="name"
+        placeholder="Selecione o Proprietário"
+        class="w-full md:w-14rem"
+      />
+    </div>
+  </div>
 
   <label class="font-bold">Data de Nascimento</label> <br />
   <Calendar v-model="form.birthDate" placeholder="dd/mm/aaaa" class="mt-2 w-6/12 mb-4" />

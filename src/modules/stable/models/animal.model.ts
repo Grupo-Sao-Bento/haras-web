@@ -1,4 +1,5 @@
 import type { User } from '@/models/auth/user.model';
+import type { Customer } from '@/modules/customers/models/customer';
 
 import type { AnimalTypes } from '../enums/animal-types.enum';
 import type { Breeds } from '../enums/breeds.enum';
@@ -13,7 +14,7 @@ export interface Animal {
   type: AnimalTypes;
   gender: Genders;
   registry: string;
-  owner: string;
+  owner: Customer;
   birthDate: Date;
   dailyFee: number;
   isAlive: boolean;

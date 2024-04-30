@@ -129,6 +129,21 @@ onMounted(async () => {
 
   <div class="flex gap-4 mt-4 mb-4">
     <div class="w-full">
+      <label class="font-bold">Proprietário</label>
+      <Dropdown
+        v-model="form.owner"
+        filter
+        :options="searchOwnerResults"
+        optionValue="id"
+        optionLabel="name"
+        placeholder="Selecione o Proprietário"
+        class="w-full md:w-14rem"
+      />
+    </div>
+  </div>
+
+  <div class="flex gap-4 mt-4 mb-4">
+    <div class="w-full">
       <label class="font-bold">Pai</label>
       <Dropdown
         v-model="form.father"
@@ -164,21 +179,6 @@ onMounted(async () => {
     hint="Use esse campo para salvar qualquer tipo de registro interno usado na sua fazenda."
     classes="mt-4 mb-4"
   />
-
-  <div class="flex gap-4 mt-4 mb-4">
-    <div class="w-full">
-      <label class="font-bold">Proprietário</label>
-      <Dropdown
-        v-model="form.owner"
-        filter
-        :options="searchOwnerResults"
-        optionValue="id"
-        optionLabel="name"
-        placeholder="Selecione o Proprietário"
-        class="w-full md:w-14rem"
-      />
-    </div>
-  </div>
 
   <label class="font-bold">Data de Nascimento</label> <br />
   <Calendar v-model="form.birthDate" placeholder="dd/mm/aaaa" class="mt-2 w-6/12 mb-4" />

@@ -13,6 +13,7 @@ import { Breeds } from '../enums/breeds.enum';
 import { Coats } from '../enums/coats.enum';
 import { Genders } from '../enums/genders.enum';
 import type { Animal } from '../models/animal.model';
+import { useAnimalsStore } from '../state/animals.store';
 
 const props = defineProps<{
   formModel: Partial<Animal>;
@@ -33,6 +34,12 @@ const form = computed({
 });
 const v$ = useVuelidate(props.validationRules, form.value);
 
+const animalsStore = useAnimalsStore();
+
+const searchResults = computed(() => {
+  return animalsStore.animals?.map((animal) => ({ id: animal.id, name: animal.name }));
+});
+
 const coats = Object.entries(Coats).map(([enumKey, enumValue]) => ({
   text: enumValue,
   value: enumKey,
@@ -51,6 +58,7 @@ const genders = Object.entries(Genders).map(([enumKey, enumValue]) => ({
 }));
 
 onMounted(async () => {
+  await animalsStore.fetchAnimals(0, 1000);
   await v$.value.$validate();
 });
 </script>
@@ -111,6 +119,32 @@ onMounted(async () => {
     placeholder="Selecione uma raça"
     class="w-full mt-2"
   />
+
+  <div class="flex gap-4 mt-4 mb-4">
+    <div class="w-full">
+      <label class="font-bold">Pai</label>
+      <Dropdown
+        v-model="form.father"
+        filter
+        :options="searchResults"
+        optionLabel="name"
+        placeholder="Selecione o Pai"
+        class="w-full md:w-14rem"
+      />
+    </div>
+
+    <div class="w-full">
+      <label class="font-bold">Mãe</label>
+      <Dropdown
+        v-model="form.mother"
+        filter
+        :options="searchResults"
+        optionLabel="name"
+        placeholder="Selecione a Mãe"
+        class="w-full md:w-14rem"
+      />
+    </div>
+  </div>
 
   <FormControl
     v-model="form.registry"

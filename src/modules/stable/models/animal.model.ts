@@ -17,6 +17,8 @@ export interface Animal {
   birthDate: Date;
   dailyFee: number;
   isAlive: boolean;
+  father: Animal;
+  mother: Animal;
   createdBy: User;
   createdAt: Date;
   updatedBy: User;

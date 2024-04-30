@@ -43,6 +43,8 @@ const formModel = ref<Partial<Animal>>({
   gender: undefined,
   registry: undefined,
   owner: undefined,
+  father: undefined,
+  mother: undefined,
   birthDate: undefined,
   dailyFee: undefined,
   isAlive: true,
@@ -122,6 +124,8 @@ function closeModal() {
     gender: undefined,
     registry: undefined,
     owner: undefined,
+    father: undefined,
+    mother: undefined,
     birthDate: undefined,
     dailyFee: undefined,
     isAlive: true,
@@ -160,11 +164,6 @@ function closeModal() {
     <Column field="name" header="Nome" />
     <Column field="coat" header="Pelagem">
       <template #body="slotProps">{{ Coats[slotProps.data.coat as keyof typeof Coats] }}</template>
-    </Column>
-    <Column field="breed" header="Raça">
-      <template #body="slotProps">{{
-        Breeds[slotProps.data.breed as keyof typeof Breeds]
-      }}</template>
     </Column>
     <Column field="registry" header="Registro" />
     <Column field="gender" header="Sexo">

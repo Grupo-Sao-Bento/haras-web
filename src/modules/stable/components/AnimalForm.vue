@@ -137,7 +137,7 @@ onMounted(async () => {
         optionValue="id"
         optionLabel="name"
         placeholder="Selecione o Proprietário"
-        class="w-full md:w-14rem"
+        class="w-full md:w-14rem mt-2"
       />
     </div>
   </div>
@@ -152,7 +152,7 @@ onMounted(async () => {
         optionValue="id"
         optionLabel="name"
         placeholder="Selecione o Pai"
-        class="w-full md:w-14rem"
+        class="w-full md:w-14rem mt-2"
       />
     </div>
 
@@ -165,7 +165,7 @@ onMounted(async () => {
         optionValue="id"
         optionLabel="name"
         placeholder="Selecione a Mãe"
-        class="w-full md:w-14rem"
+        class="w-full md:w-14rem mt-2"
       />
     </div>
   </div>

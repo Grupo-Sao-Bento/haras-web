@@ -14,7 +14,7 @@ import { Breeds } from '../enums/breeds.enum';
 import { Coats } from '../enums/coats.enum';
 import { Genders } from '../enums/genders.enum';
 import type { Animal } from '../models/animal.model';
-import { useAnimalsStore } from '../state/animals.store';
+import { useAnimalsStore } from '../state/animals-form.store';
 
 const props = defineProps<{
   formModel: Partial<Animal>;
@@ -64,7 +64,7 @@ const genders = Object.entries(Genders).map(([enumKey, enumValue]) => ({
 }));
 
 onMounted(async () => {
-  await animalsStore.fetchAnimals(0, 1000);
+  await animalsStore.fetchAllAnimals();
   await customerStore.fetchCustomers(0, 1000);
   await v$.value.$validate();
 });

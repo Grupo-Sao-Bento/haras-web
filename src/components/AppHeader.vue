@@ -12,7 +12,7 @@ defineProps<{ displayName?: string }>();
       <Menu class="shadow flex items-center justify-between px-6 py-3">
         <template #start>
           <div class="flex items-center justify-between w-56">
-            <h2 class="text-2xl font-bold">EquinoGest</h2>
+            <h2 class="text-2xl font-bold">EquiGestor</h2>
             <div>
               <Button
                 @click="$emit('toggleMenu')"

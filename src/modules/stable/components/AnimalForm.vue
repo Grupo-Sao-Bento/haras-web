@@ -14,7 +14,7 @@ import { Breeds } from '../enums/breeds.enum';
 import { Coats } from '../enums/coats.enum';
 import { Genders } from '../enums/genders.enum';
 import type { Animal } from '../models/animal.model';
-import { useAnimalsStore } from '../state/animals-form.store';
+import { useAnimalsFormStore } from '../state/animals-form.store';
 
 const props = defineProps<{
   formModel: Partial<Animal>;
@@ -35,11 +35,11 @@ const form = computed({
 });
 const v$ = useVuelidate(props.validationRules, form.value);
 
-const animalsStore = useAnimalsStore();
+const animalsFormStore = useAnimalsFormStore();
 const customerStore = useCustomersStore();
 
 const searchAnimalResults = computed(() => {
-  return animalsStore.animals?.map((animal) => ({ id: animal.id, name: animal.name }));
+  return animalsFormStore.animals?.map((animal) => ({ id: animal.id, name: animal.name }));
 });
 
 const searchOwnerResults = computed(() => {
@@ -64,7 +64,7 @@ const genders = Object.entries(Genders).map(([enumKey, enumValue]) => ({
 }));
 
 onMounted(async () => {
-  await animalsStore.fetchAllAnimals();
+  await animalsFormStore.fetchAnimals();
   await customerStore.fetchCustomers(0, 1000);
   await v$.value.$validate();
 });

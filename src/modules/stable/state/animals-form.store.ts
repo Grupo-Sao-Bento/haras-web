@@ -22,7 +22,7 @@ const initialState: AnimalsState = {
   },
 };
 
-export const useAnimalsStore = defineStore('animals', () => {
+export const useAnimalsFormStore = defineStore('animals', () => {
   const toastStore = useToastStore();
 
   const state = ref<AnimalsState>(initialState);
@@ -30,7 +30,7 @@ export const useAnimalsStore = defineStore('animals', () => {
   const animals = computed(() => state.value.animalsList.animals);
   const loading = computed(() => state.value.animalsList.loading);
 
-  async function fetchAllAnimals() {
+  async function fetchAnimals() {
     state.value.animalsList.loading = true;
 
     try {
@@ -55,6 +55,6 @@ export const useAnimalsStore = defineStore('animals', () => {
     state,
     animals,
     loading,
-    fetchAllAnimals,
+    fetchAnimals,
   };
 });

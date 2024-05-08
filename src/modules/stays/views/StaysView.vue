@@ -12,6 +12,7 @@ import Column from 'primevue/column';
 import DataTable from 'primevue/datatable';
 import InputText from 'primevue/inputtext';
 import type { PageState } from 'primevue/paginator';
+import Tag from 'primevue/tag';
 import { useConfirm } from 'primevue/useconfirm';
 
 import StaysForm from '../components/StaysForm.vue';
@@ -49,6 +50,10 @@ onMounted(async () => {
 
 async function pageChanges(event: PageState) {
   await staysStore.fetchStays(event.page, entitiesPerPage.value);
+}
+
+function getFormattedDate(date: Date | string): string {
+  return new Date(date).toJSON()?.slice(0, 10).split('-').reverse().join('/');
 }
 
 function openCreationModal() {
@@ -140,8 +145,16 @@ function closeModal() {
   >
     <Column field="" />
     <Column field="name" header="Nome" />
-    <Column field="enter" header="Entrada" />
-    <Column field="exit" header="Saída" />
+    <Column field="start" header="Entrada">
+      <template #body="slotProps">
+        <Tag :value="getFormattedDate((slotProps.data as Stay).start)" />
+      </template>
+    </Column>
+    <Column field="end" header="Saída">
+      <template #body="slotProps">
+        <Tag severity="danger" :value="getFormattedDate((slotProps.data as Stay).end)" />
+      </template>
+    </Column>
     <Column :exportable="false" header="Ações">
       <template #body="slotProps">
         <Button

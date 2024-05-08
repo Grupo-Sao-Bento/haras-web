@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { AnimalTypes } from '../enums/animal-types.enum';
+import { Breeds } from '../enums/breeds.enum';
 import { Coats } from '../enums/coats.enum';
 import { Genders } from '../enums/genders.enum';
 import type { Animal } from '../models/animal.model';
+import type { Customer } from '@/modules/customers/models/customer';
 
 defineProps<{ animal: Animal }>();
 
@@ -24,6 +26,22 @@ function getFormattedDate(date: Date | string): string {
   <p>
     <span class="font-bold">Tipo:</span>
     {{ AnimalTypes[animal.type as unknown as keyof typeof AnimalTypes] }}
+  </p>
+  <p v-if="animal.breed">
+    <span class="font-bold">Raça:</span>
+    {{ Breeds[animal.breed as unknown as keyof typeof Breeds] }}
+  </p>
+  <p v-if="animal.owner">
+    <span class="font-bold">Proprietário:</span>
+    {{ animal.owner.firstName }}
+  </p>
+  <p v-if="animal.father">
+    <span class="font-bold">Pai:</span>
+    {{ animal.father.name }}
+  </p>
+  <p v-if="animal.mother">
+    <span class="font-bold">Mãe:</span>
+    {{ animal.mother.name }}
   </p>
   <p v-if="animal.registry">
     <span class="font-bold">Registro interno:</span>

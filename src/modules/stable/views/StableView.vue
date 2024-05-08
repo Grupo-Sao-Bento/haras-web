@@ -17,6 +17,7 @@ import { useConfirm } from 'primevue/useconfirm';
 
 import AnimalForm from '../components/AnimalForm.vue';
 import TableExpansion from '../components/TableExpansion.vue';
+import { Breeds } from '../enums/breeds.enum';
 import { Coats } from '../enums/coats.enum';
 import type { Animal } from '../models/animal.model';
 import { useAnimalsStore } from '../state/animals.store';
@@ -37,10 +38,13 @@ const rowsPerPageOptions = [entitiesPerPage.value, entitiesPerPage.value * 2];
 const formModel = ref<Partial<Animal>>({
   name: undefined,
   coat: undefined,
+  breed: undefined,
   type: undefined,
   gender: undefined,
   registry: undefined,
   owner: undefined,
+  father: undefined,
+  mother: undefined,
   birthDate: undefined,
   dailyFee: undefined,
   isAlive: true,
@@ -115,10 +119,13 @@ function closeModal() {
   formModel.value = {
     name: undefined,
     coat: undefined,
+    breed: undefined,
     type: undefined,
     gender: undefined,
     registry: undefined,
     owner: undefined,
+    father: undefined,
+    mother: undefined,
     birthDate: undefined,
     dailyFee: undefined,
     isAlive: true,

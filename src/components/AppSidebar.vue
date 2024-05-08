@@ -28,6 +28,9 @@ const menuItems: MenuItem[] = [
   {
     label: 'Cocheiras',
     icon: 'fa-solid fa-warehouse',
+    command: () => {
+      router.push(`${import.meta.env.BASE_URL}w/stays`);
+    },
   },
   {
     label: 'Estoque',

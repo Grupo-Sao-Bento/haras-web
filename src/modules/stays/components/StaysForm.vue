@@ -5,8 +5,8 @@ import useVuelidate from '@vuelidate/core';
 import Calendar from 'primevue/calendar';
 import Dropdown from 'primevue/dropdown';
 
-import { useAnimalsFormStore } from '../../stable/state/animals-form.store';
 import type { Stay } from '../models/stay.model';
+import { useStaysAnimalsFormStore } from '../state/stays-animals.store';
 
 const props = defineProps<{
   formModel: Partial<Stay>;
@@ -27,14 +27,14 @@ const form = computed({
 });
 const v$ = useVuelidate(props.validationRules, form.value);
 
-const animalsFormStore = useAnimalsFormStore();
+const staysAnimalsFormStore = useStaysAnimalsFormStore();
 
 const searchAnimalResults = computed(() => {
-  return animalsFormStore.animals?.map((animal) => ({ id: animal.id, name: animal.name }));
+  return staysAnimalsFormStore.animals?.map((animal) => ({ id: animal.id, name: animal.name }));
 });
 
 onMounted(async () => {
-  await animalsFormStore.fetchAnimals();
+  await staysAnimalsFormStore.fetchAnimals();
   await v$.value.$validate();
 });
 </script>

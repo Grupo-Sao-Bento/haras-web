@@ -17,7 +17,6 @@ import { useConfirm } from 'primevue/useconfirm';
 
 import AnimalForm from '../components/AnimalForm.vue';
 import TableExpansion from '../components/TableExpansion.vue';
-import { Breeds } from '../enums/breeds.enum';
 import { Coats } from '../enums/coats.enum';
 import type { Animal } from '../models/animal.model';
 import { useAnimalsStore } from '../state/animals.store';
@@ -116,6 +115,7 @@ function confirmDeletion(event: any, animalId: string) {
 function closeModal() {
   modalVisible.value = false;
   isEditing.value = false;
+  selectedAnimal.value = {};
   formModel.value = {
     name: undefined,
     coat: undefined,
@@ -217,7 +217,11 @@ function closeModal() {
   >
     <template #modalContent>
       <AppFullScreenModalCard>
-        <AnimalForm v-model:form-model="formModel" :validation-rules="rules" />
+        <AnimalForm
+          v-model:form-model="formModel"
+          :validation-rules="rules"
+          :animal-id="selectedAnimal.id"
+        />
       </AppFullScreenModalCard>
     </template>
   </AppFullScreenModal>

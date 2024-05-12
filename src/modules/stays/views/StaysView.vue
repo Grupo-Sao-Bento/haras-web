@@ -144,7 +144,7 @@ function closeModal() {
     @page="pageChanges"
   >
     <Column field="" />
-    <Column field="name" header="Animal" />
+    <Column field="animal.name" header="Animal" />
     <Column field="start" header="Entrada">
       <template #body="slotProps">
         <Tag :value="getFormattedDate((slotProps.data as Stay).start)" />

@@ -25,6 +25,7 @@ const staysStore = useStaysStore();
 const confirmService = useConfirm();
 
 const expandedRows = ref();
+const animalName = ref('');
 
 const modalVisible = ref(false);
 const modalHeader = ref('Adicionar estadia');
@@ -59,12 +60,12 @@ function getFormattedDate(date: Date | string): string {
   return new Date(date).toJSON()?.slice(0, 10).split('-').reverse().join('/');
 }
 
-async function createEvent(event: Partial<CalendarEvent>) {
-  await calendarStore.createEvent(event);
+function updateAnimalName(newAnimalName: string) {
+  animalName.value = newAnimalName;
 }
 
-async function cancelEvent(eventId: string) {
-  await calendarStore.cancelEvent(eventId);
+async function createEvent(event: Partial<CalendarEvent>) {
+  await calendarStore.createEvent(event);
 }
 
 function openCreationModal() {
@@ -87,7 +88,7 @@ function createStay() {
   staysStore.postStay(formModel.value);
 
   createEvent({
-    title: 'Estadia de ' + formModel.value.animal,
+    title: '[ESTADIA] Entrada/Saida de ' + animalName.value,
     start: formModel.value.start,
     end: formModel.value.end,
     allDay: true,
@@ -201,7 +202,12 @@ function closeModal() {
   >
     <template #modalContent>
       <AppFullScreenModalCard>
-        <StaysForm v-model:form-model="formModel" :validation-rules="rules" />
+        <StaysForm
+          v-model:form-model="formModel"
+          :validation-rules="rules"
+          :animal-name="animalName"
+          @update:animal-name="updateAnimalName"
+        />
       </AppFullScreenModalCard>
     </template>
   </AppFullScreenModal>

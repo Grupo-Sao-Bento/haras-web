@@ -11,10 +11,12 @@ import { useStaysAnimalsFormStore } from '../state/stays-animals.store';
 const props = defineProps<{
   formModel: Partial<Stay>;
   validationRules: Object;
+  animalName: string;
 }>();
 
 const emit = defineEmits<{
   (e: 'update:formModel', value: Partial<Stay>): void;
+  (e: 'update:animal-name', value: string): void;
 }>();
 
 const form = computed({
@@ -32,6 +34,14 @@ const staysAnimalsFormStore = useStaysAnimalsFormStore();
 const searchAnimalResults = computed(() => {
   return staysAnimalsFormStore.animals?.map((animal) => ({ id: animal.id, name: animal.name }));
 });
+
+function updateAnimalName(selectedAnimalId: string) {
+  const selectedAnimal = searchAnimalResults.value?.find(
+    (animal) => animal.id === selectedAnimalId,
+  );
+  const animalName = selectedAnimal ? selectedAnimal.name : '';
+  emit('update:animal-name', animalName);
+}
 
 onMounted(async () => {
   await staysAnimalsFormStore.fetchAnimals();
@@ -51,6 +61,7 @@ onMounted(async () => {
         optionLabel="name"
         placeholder="Selecione o Animal"
         class="w-full md:w-14rem mt-2"
+        @update:modelValue="updateAnimalName"
       />
     </div>
   </div>

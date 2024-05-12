@@ -2,6 +2,7 @@ import AppVue from '@/App.vue';
 import customersRoutes from '@/modules/customers/router';
 import homeRoutes from '@/modules/home/router';
 import stableRoutes from '@/modules/stable/router';
+import staysRoutes from '@/modules/stays/router';
 import { createRouter, createWebHistory } from 'vue-router';
 
 import authenticationGuard from './guards/authentication-guard';
@@ -39,6 +40,11 @@ const router = createRouter({
               path: 'customers',
               component: () => import('@/modules/customers/CustomersModule.vue'),
               children: customersRoutes,
+            },
+            {
+              path: 'stays',
+              component: () => import('@/modules/stays/StaysModule.vue'),
+              children: staysRoutes,
             },
           ],
         },

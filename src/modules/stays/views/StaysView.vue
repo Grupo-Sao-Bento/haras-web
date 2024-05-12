@@ -4,6 +4,8 @@ import { onMounted, ref } from 'vue';
 import AppFeatureHeader from '@/components/AppFeatureHeader.vue';
 import AppFullScreenModal from '@/components/AppFullScreenModal.vue';
 import AppFullScreenModalCard from '@/components/AppFullScreenModalCard.vue';
+import type { CalendarEvent } from '@/modules/home/models/calendar-event.model';
+import { useCalendarStore } from '@/modules/home/state/calendar.store';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { isNil, omitBy } from 'lodash';
@@ -43,6 +45,7 @@ const rules = {
   end: { required },
 };
 const v$ = useVuelidate();
+const calendarStore = useCalendarStore();
 
 onMounted(async () => {
   await staysStore.fetchStays(0, entitiesPerPage.value);
@@ -54,6 +57,14 @@ async function pageChanges(event: PageState) {
 
 function getFormattedDate(date: Date | string): string {
   return new Date(date).toJSON()?.slice(0, 10).split('-').reverse().join('/');
+}
+
+async function createEvent(event: Partial<CalendarEvent>) {
+  await calendarStore.createEvent(event);
+}
+
+async function cancelEvent(eventId: string) {
+  await calendarStore.cancelEvent(eventId);
 }
 
 function openCreationModal() {
@@ -74,6 +85,14 @@ function openEditionModal(stay: Stay) {
 
 function createStay() {
   staysStore.postStay(formModel.value);
+
+  createEvent({
+    title: 'Estadia de ' + formModel.value.animal,
+    start: formModel.value.start,
+    end: formModel.value.end,
+    allDay: true,
+  });
+
   closeModal();
 }
 

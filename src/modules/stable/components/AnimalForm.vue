@@ -19,6 +19,7 @@ import { useAnimalsFormStore } from '../state/animals-form.store';
 const props = defineProps<{
   formModel: Partial<Animal>;
   validationRules: Object;
+  animalId?: string;
 }>();
 
 const emit = defineEmits<{
@@ -39,7 +40,15 @@ const animalsFormStore = useAnimalsFormStore();
 const customerStore = useCustomersStore();
 
 const searchAnimalResults = computed(() => {
-  return animalsFormStore.animals?.map((animal) => ({ id: animal.id, name: animal.name }));
+  return animalsFormStore.animals
+    ?.map((animal) => {
+      if (animal.id === props.animalId) {
+        return null;
+      } else {
+        return { id: animal.id, name: animal.name };
+      }
+    })
+    .filter((animal) => animal !== null);
 });
 
 const searchOwnerResults = computed(() => {

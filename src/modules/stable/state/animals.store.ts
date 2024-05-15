@@ -116,12 +116,20 @@ export const useAnimalsStore = defineStore('animals', () => {
         (animal) => animal.id !== animalId,
       );
     } catch (error) {
-      toastStore.show({
-        severity: 'error',
-        summary: 'Erro ao deletar animal',
-        detail:
-          'Ocorreu um problema ao deletar o animal. Tente novamente mais tarde ou contate o suporte caso o problema persista.',
-      });
+      if (error instanceof Error && error.message.endsWith('409')) {
+        toastStore.show({
+          severity: 'error',
+          summary: 'Erro ao deletar animal',
+          detail: 'O animal não pôde ser deletado pois está relacionado a outra(s) entidade(s).',
+        });
+      } else {
+        toastStore.show({
+          severity: 'error',
+          summary: 'Erro ao deletar animal',
+          detail:
+            'Ocorreu um problema ao deletar o animal. Tente novamente mais tarde ou contate o suporte caso o problema persista.',
+        });
+      }
     }
 
     state.value.isDeleting = false;

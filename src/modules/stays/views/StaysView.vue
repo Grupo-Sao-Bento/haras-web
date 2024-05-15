@@ -79,6 +79,7 @@ function openEditionModal(stay: Stay) {
   modalHeader.value = 'Editar estadia';
   selectedStay.value = stay;
   formModel.value = stay;
+  formModel.value.animal = undefined;
   formModel.value.start = stay.start ? new Date(stay.start) : undefined;
   formModel.value.end = stay.end ? new Date(stay.end) : undefined;
   modalVisible.value = true;
